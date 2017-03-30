@@ -177,9 +177,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void Quit()
+    public void Quit()
     {
-        SceneManager.LoadScene("Main Menu");
+        //SceneManager.LoadScene("Main Menu");
+        Application.Quit();
     }
 
     IEnumerator WaitTimer()
