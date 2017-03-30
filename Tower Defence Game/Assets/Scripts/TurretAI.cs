@@ -33,7 +33,7 @@ public class TurretAI : MonoBehaviour
 
     GameObject target;
 
-    float currentTargetDis = 0;
+    float currentTargetDis = Mathf.Infinity;
 
     public LayerMask mask;
 
@@ -55,23 +55,23 @@ public class TurretAI : MonoBehaviour
 
     void RangeMonitor()
     {
+        currentTargetDis = Mathf.Infinity;
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
         if (enemiesInRange.Length > 0)
         {
             foreach (Collider eCol in enemiesInRange)
             {
-                if (eCol.gameObject.GetComponent<EnemyAI>().disLeft >= currentTargetDis)
+                if (eCol.gameObject.GetComponent<EnemyAI>().disLeft <= currentTargetDis)
                 {
                     currentTargetDis = eCol.gameObject.GetComponent<EnemyAI>().disLeft;
                     target = eCol.gameObject;
-                    currentTargetDis = 0;
                 }
             }
         }
         else
         {
             target = null;
-            currentTargetDis = 0;
+            currentTargetDis = Mathf.Infinity;
         }  
     }
 

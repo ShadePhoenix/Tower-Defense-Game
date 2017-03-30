@@ -10,6 +10,7 @@ public class PlayerTurretControl : MonoBehaviour {
 
     [Tooltip("")]
     public float health = 100;
+    static public float playerHealth;
     [Tooltip("The Object that will rotate")]
     public GameObject turretHead;
     [Tooltip("The Object that the bullets will fire from. *Best to parent to Turret Head*")]
@@ -33,6 +34,7 @@ public class PlayerTurretControl : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        playerHealth = health;
         m_Camera = Camera.main;
         currentHealth = health;
         //canvas = GameObject.FindGameObjectWithTag("Canvas");
@@ -57,17 +59,20 @@ public class PlayerTurretControl : MonoBehaviour {
 
     void Aim()
     {
-        Vector2 posDif = Input.mousePosition - m_Camera.WorldToScreenPoint(transform.position);
-        Vector3 playerRot = turretHead.transform.rotation.eulerAngles;
-        playerRot.y = Mathf.Atan2(posDif.x, posDif.y) * Mathf.Rad2Deg;
-        turretHead.transform.rotation = Quaternion.Euler(playerRot);
+        if (!UIManager.uiMode)
+        {
+            Vector2 posDif = Input.mousePosition - m_Camera.WorldToScreenPoint(transform.position);
+            Vector3 playerRot = turretHead.transform.rotation.eulerAngles;
+            playerRot.y = Mathf.Atan2(posDif.x, posDif.y) * Mathf.Rad2Deg;
+            turretHead.transform.rotation = Quaternion.Euler(playerRot);
+        }
     }
 
     bool fire = true;
 
     void Fire()
     {
-        if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject() && !UIManager.constructionMode)
+        if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject() && !UIManager.uiMode)
         {
             GameObject bullet = Instantiate(bulletPrefab, barrel.position, Quaternion.Euler(turretHead.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
@@ -92,6 +97,7 @@ public class PlayerTurretControl : MonoBehaviour {
 
     void HealthUpdate()
     {
+        playerHealth = currentHealth;
         healthBarFill.fillAmount = currentHealth / health;
     }
 }

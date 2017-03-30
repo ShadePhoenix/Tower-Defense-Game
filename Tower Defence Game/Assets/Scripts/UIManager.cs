@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class UIManager : MonoBehaviour
     public Text scoreText;    
     static public int score;
 
+    public GameObject gameUI;
+    public GameObject pauseMenu;
+    //public GameObject gameOverMenu;
+
+    bool gameOver = false;
+
     GameObject enemySpawner;
 
     public GameObject[] turretPrefabs;
@@ -30,18 +37,18 @@ public class UIManager : MonoBehaviour
     // if this is true, we're in "build mode" and the next click will place a building
     static public bool isBuilding = false;
     static public bool isRemoving = false;
-    static public bool constructionMode = false;
+    static public bool uiMode = false;
 
 	// Use this for initialization
 	void Start ()
     {
+        pauseMenu.SetActive(false);
+        //gameOverMenu.SetActive(false);
         enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         enemySpawner.GetComponent<EnemySpawner>().enemyPrefab = enemyPrefabs;
         money = startingMoney;
         m_Camera = Camera.main;
-        //player = GameObject.FindGameObjectWithTag("Player");
-        UpdateMoney();
-        UpdateScore();
+        UpdateStats();
         ButtonIni();
 
     }
@@ -65,12 +72,10 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         Construction();
-        if (isRemoving || isBuilding)
-        {
-            constructionMode = true;
-        }
+        if (isRemoving || isBuilding || isPaused)
+            uiMode = true;
         else
-            constructionMode = false;
+            uiMode = false;
     }
 
     public void BuildButton(GameObject turret)
@@ -103,7 +108,7 @@ public class UIManager : MonoBehaviour
                     {
                         Instantiate(turretPrefab, hit.collider.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
                         money -= turretPrefab.GetComponent<TurretAI>().cost;
-                        UpdateMoney();
+                        UpdateStats();
                     }
                     turretPrefab = null;
                     StartCoroutine(WaitTimer());
@@ -123,7 +128,7 @@ public class UIManager : MonoBehaviour
                     if (hit.collider.tag == "Turret")
                     {
                         money += hit.collider.GetComponent<TurretAI>().cost / 2;
-                        UpdateMoney();
+                        UpdateStats();
                         Destroy(hit.collider.gameObject);
                     }
                     StartCoroutine(WaitTimer());
@@ -132,13 +137,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore()
+    public void UpdateStats()
     {
         scoreText.text = "Score: " + score;
-    }
-
-    public void UpdateMoney()
-    {
         moneyText.text = "Money: $" + money;
     }
 
@@ -147,15 +148,44 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void Quit()
+    bool isPaused = false;
+
+    public void MenuPR(bool pause = false)
     {
-        Application.Quit();
+        //Pause
+        isPaused = pause;
+        if (pause && !gameOver)
+        {
+            gameUI.SetActive(false);
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        if (!pause && !gameOver)
+        {
+            gameUI.SetActive(true);
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        if (!pause && gameOver)
+        {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+
+    }
+
+    void Quit()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     IEnumerator WaitTimer()
     {
         yield return new WaitForSeconds(0.2f);
-        constructionMode = false;
+        uiMode = false;
         if (isBuilding)
             isBuilding = !isBuilding;
         else if (isRemoving)

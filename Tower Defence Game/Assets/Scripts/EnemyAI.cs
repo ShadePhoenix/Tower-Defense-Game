@@ -80,8 +80,7 @@ public class EnemyAI : MonoBehaviour {
         {
             UIManager.score += scoreWorth;
             UIManager.money += moneyWorth;
-            canvas.GetComponent<UIManager>().UpdateScore();
-            canvas.GetComponent<UIManager>().UpdateMoney();
+            canvas.GetComponent<UIManager>().UpdateStats();
             Destroy(gameObject);
         }
     }
