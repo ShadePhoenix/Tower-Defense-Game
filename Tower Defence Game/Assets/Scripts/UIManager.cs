@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    //GameObject player;
-
     Camera m_Camera;
 
     public Text moneyText;
@@ -23,7 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
     //public GameObject gameOverMenu;
 
-    bool gameOver = false;
+    static public bool gameOver = false;
 
     GameObject enemySpawner;
 
@@ -34,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     GameObject turretPrefab; 
 
-    // if this is true, we're in "build mode" and the next click will place a building
+    //If this is true, we're in "build mode" and the next click will place a building
     static public bool isBuilding = false;
     static public bool isRemoving = false;
     static public bool uiMode = false;
@@ -53,6 +51,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+    //Spawns buttons in the menu for each prefab defined
     void ButtonIni()
     {
         buttonPositions = GameObject.FindGameObjectsWithTag("ButtonPos").OrderBy(go => go.name).ToArray();
@@ -72,12 +71,14 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         Construction();
-        if (isRemoving || isBuilding || isPaused)
+        //Enables uiMode if any of these are true
+        if (isRemoving || isBuilding || isPaused || gameOver)
             uiMode = true;
         else
             uiMode = false;
     }
 
+    //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
     public void BuildButton(GameObject turret)
     {
         if (turret != null)
@@ -88,6 +89,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    //Activates build mode
     public void RemoveButton()
     {
         isRemoving = true;
@@ -137,6 +139,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    //Updates score and money text boxes
     public void UpdateStats()
     {
         scoreText.text = "Score: " + score;
@@ -148,8 +151,8 @@ public class UIManager : MonoBehaviour
 
     }
 
+    //Handles the pause menus and pauses the game
     bool isPaused = false;
-
     public void MenuPR(bool pause = false)
     {
         //Pause
@@ -160,29 +163,28 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
+        //Unpause if Paused
         if (!pause && !gameOver)
         {
             gameUI.SetActive(true);
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
         }
-        if (!pause && gameOver)
-        {
-            GameOver();
-        }
     }
 
+    //Handles the gameover menu
     void GameOver()
     {
 
     }
 
+    //Takes you back to the main menu
     public void Quit()
     {
-        //SceneManager.LoadScene("Main Menu");
-        Application.Quit();
+        SceneManager.LoadScene("Main Menu");
     }
 
+    //This does something that helps, I swear
     IEnumerator WaitTimer()
     {
         yield return new WaitForSeconds(0.2f);

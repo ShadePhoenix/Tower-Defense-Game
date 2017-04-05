@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour {
 
-    public GameObject shooter;
+    GameObject shooter;
 
     public int damage;
 

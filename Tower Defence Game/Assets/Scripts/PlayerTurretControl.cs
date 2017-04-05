@@ -8,9 +8,8 @@ public class PlayerTurretControl : MonoBehaviour {
 
     Camera m_Camera;
 
-    [Tooltip("")]
+    [Tooltip("Starting Health of the Player Turret")]
     public float health = 100;
-    static public float playerHealth;
     [Tooltip("The Object that will rotate")]
     public GameObject turretHead;
     [Tooltip("The Object that the bullets will fire from. *Best to parent to Turret Head*")]
@@ -29,15 +28,12 @@ public class PlayerTurretControl : MonoBehaviour {
 
     public Image healthBarFill;
 
-    //GameObject canvas;
-
     // Use this for initialization
     void Start ()
     {
-        playerHealth = health;
+        currentHealth = health;
         m_Camera = Camera.main;
         currentHealth = health;
-        //canvas = GameObject.FindGameObjectWithTag("Canvas");
 	}
 	
 	// Update is called once per frame
@@ -76,7 +72,6 @@ public class PlayerTurretControl : MonoBehaviour {
         {
             GameObject bullet = Instantiate(bulletPrefab, barrel.position, Quaternion.Euler(turretHead.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
-            bullet.GetComponent<BulletManager>().shooter = gameObject;
             barrel.GetComponent<ParticleSystem>().Play();
             float waitTime = fireWait;
             StartCoroutine(FireWait(waitTime));
@@ -97,7 +92,10 @@ public class PlayerTurretControl : MonoBehaviour {
 
     void HealthUpdate()
     {
-        playerHealth = currentHealth;
         healthBarFill.fillAmount = currentHealth / health;
+        if (currentHealth <= 0)
+        {
+            UIManager.gameOver = true;
+        }
     }
 }

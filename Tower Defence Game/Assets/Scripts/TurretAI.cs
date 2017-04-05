@@ -16,13 +16,13 @@ public class TurretAI : MonoBehaviour
 
     //public GameObject bulletPrefab;
 
-    [Tooltip("")]
+    [Tooltip("How much the unit will cost to build")]
     public int cost;
-    [Tooltip("")]
+    [Tooltip("The name you want to appear on the build buttons")]
     public string turretName;
     [Tooltip("Damage dealt to enemies when hit")]
     public int damage;
-    [Tooltip("Damage dealt to enemies when hit")]
+    [Tooltip("The range that it can target enemies")]
     public float fireRange;
     //[Tooltip("")]
     //public float bulletSpeed;
@@ -53,6 +53,7 @@ public class TurretAI : MonoBehaviour
         Fire();
     }
 
+    //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
         currentTargetDis = Mathf.Infinity;
@@ -75,6 +76,7 @@ public class TurretAI : MonoBehaviour
         }  
     }
 
+    //Rotates the turret head to face the target
     void Aim()
     {
         if (target != null)
@@ -86,16 +88,16 @@ public class TurretAI : MonoBehaviour
         }
     }
 
+    //Fires a raycast to damage enemies
     bool fire = true;
-
     void Fire()
     {
         if (fire && target != null)
         {
-            //Firing with a bullet code.
-            //GameObject bullet = Instantiate(bulletPrefab, barrel.position, Quaternion.Euler(turretHead.transform.eulerAngles));
-            //bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
-            //bullet.GetComponent<BulletManager>().shooter = gameObject;
+            /*Firing with a bullet code.
+            GameObject bullet = Instantiate(bulletPrefab, barrel.position, Quaternion.Euler(turretHead.transform.eulerAngles));
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
+            bullet.GetComponent<BulletManager>().shooter = gameObject;*/
 
             RaycastHit hit;
             if(Physics.Raycast(barrel.position, barrel.forward, out hit, fireRange, mask))
@@ -111,6 +113,7 @@ public class TurretAI : MonoBehaviour
         }
     }
 
+    //Adds a waiting time before the next shot can be fired
     IEnumerator FireWait(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
