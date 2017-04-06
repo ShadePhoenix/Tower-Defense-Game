@@ -11,22 +11,25 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    List<HighScore> highScores;
+    //List<HighScore> highScores;
+    //static public string filePath;
 
     Camera m_Camera;
 
-    public Text moneyText;
+    public Text moneyTB;
     static public int money;
     public int startingMoney;
 
-    public Text scoreText;    
+    public Text scoreTB;    
     static public int score;
+
+    public Text endScore;
 
     public GameObject gameUI;
     public GameObject pauseMenu;
-    //public GameObject gameOverMenu;
+    public GameObject gameOverMenu;
 
-    static public bool gameOver = false;
+    public bool gameOver = false;
 
     GameObject enemySpawner;
 
@@ -42,17 +45,19 @@ public class UIManager : MonoBehaviour
     static public bool isRemoving = false;
     static public bool uiMode = false;
 
-    string fileLocation;
-    string fileName;
-
-	// Use this for initialization
-	void Start ()
+    void Awake()
     {
-        pauseMenu.SetActive(false);
-        GetHighScore();
-        //gameOverMenu.SetActive(false);
         enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         enemySpawner.GetComponent<EnemySpawner>().enemyPrefab = enemyPrefabs;
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        //filePath = PlayerPrefs.GetString("FilePath");
+        gameUI.SetActive(true);
+        gameOverMenu.SetActive(false);
+        pauseMenu.SetActive(false);
         money = startingMoney;
         m_Camera = Camera.main;
         UpdateStats();
@@ -84,6 +89,8 @@ public class UIManager : MonoBehaviour
             uiMode = true;
         else
             uiMode = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
+            MenuPR(!isPaused);
     }
 
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
@@ -150,8 +157,8 @@ public class UIManager : MonoBehaviour
     //Updates score and money text boxes
     public void UpdateStats()
     {
-        scoreText.text = "Score: " + score;
-        moneyText.text = "Money: $" + money;
+        scoreTB.text = "Score: " + score;
+        moneyTB.text = "Money: $" + money;
     }
 
     void AdminButton()
@@ -167,23 +174,36 @@ public class UIManager : MonoBehaviour
         isPaused = pause;
         if (pause && !gameOver)
         {
-            gameUI.SetActive(false);
-            pauseMenu.SetActive(true);
+            gameUI.SetActive(!pause);
+            pauseMenu.SetActive(pause);
             Time.timeScale = 0;
         }
         //Unpause if Paused
-        if (!pause && !gameOver)
+        else if (!pause && !gameOver)
         {
-            gameUI.SetActive(true);
-            pauseMenu.SetActive(false);
+            gameUI.SetActive(!pause);
+            pauseMenu.SetActive(pause);
             Time.timeScale = 1;
+        }
+        else if (pause && gameOver)
+        {
+            gameOverMenu.SetActive(gameOver);
+            gameUI.SetActive(!gameOver);
+            Time.timeScale = 0;
         }
     }
 
-    //Handles the gameover menu
-    void GameOver()
+    public void Restart()
     {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
+    //Handles the gameover menu
+    public void GameOver()
+    {
+        gameOver = true;
+        MenuPR(gameOver);
+        endScore.text = "You have been defeated! \n You were able to score: " + score + "\n Maybe next time you'll have better luck!";
     }
 
     //Takes you back to the main menu
@@ -192,15 +212,19 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
-    void GetHighScore()
-    {
+    //void GetHighScore()
+    //{
+    //    StreamReader reader = new StreamReader(filePath);
+    //    string[] temp = reader.ReadToEnd().Split(',');
+    //    print(temp[0]);
+    //    print(temp[1]);
+    //    print(temp[2]);
+    //}
 
-    }
+    //void SaveHighScore()
+    //{
 
-    void SaveHighScore()
-    {
-
-    }
+    //}
 
     //This does something that helps, I swear
     IEnumerator WaitTimer()
@@ -214,15 +238,15 @@ public class UIManager : MonoBehaviour
     }
 }
 
-public struct HighScore
-{
-    public int rank;
-    public string playerName;
-    public int playerScore;
-    public HighScore(int _rank, string _playerName, int _playerScore)
-    {
-        rank = _rank;
-        playerName = _playerName;
-        playerScore = _playerScore;
-    }
-}
+//public struct HighScore
+//{
+//    public int rank;
+//    public string playerName;
+//    public int playerScore;
+//    public HighScore(int _rank, string _playerName, int _playerScore)
+//    {
+//        rank = _rank;
+//        playerName = _playerName;
+//        playerScore = _playerScore;
+//    }
+//}

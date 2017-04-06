@@ -12,6 +12,7 @@ ModelImporter:
     100008: transform2
     100010: TurretBase
     100012: TurretHead
+    100014: Barrel
     400000: //RootNode
     400002: pCylinder2
     400004: pCylinder3
@@ -19,12 +20,19 @@ ModelImporter:
     400008: transform2
     400010: TurretBase
     400012: TurretHead
+    400014: Barrel
     2300000: pCylinder3
     2300002: TurretBase
+    2300004: Barrel
+    2300006: TurretHead
     3300000: pCylinder3
     3300002: TurretBase
+    3300004: Barrel
+    3300006: TurretHead
     4300000: TurretBase
     4300002: pCylinder3
+    4300004: TurretHead
+    4300006: Barrel
     9500000: //RootNode
   materials:
     importMaterials: 1

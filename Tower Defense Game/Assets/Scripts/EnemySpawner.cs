@@ -23,7 +23,10 @@ public class EnemySpawner : MonoBehaviour {
         while (spawn)
         {
             yield return new WaitForSeconds(2);
-            Instantiate(enemyPrefab[0], transform.position, Quaternion.Euler(Vector3.zero));
+            if (enemyPrefab.Length > 0)
+                Instantiate(enemyPrefab[Random.Range(0,enemyPrefab.Length)], transform.position, Quaternion.Euler(Vector3.zero));
+            else
+                Instantiate(enemyPrefab[0], transform.position, Quaternion.Euler(Vector3.zero));
         }
     }
 }

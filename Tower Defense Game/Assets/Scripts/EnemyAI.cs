@@ -10,9 +10,9 @@ using UnityEngine.UI;
 public class EnemyAI : MonoBehaviour {
 
 
-    [Tooltip("")]
+    [Tooltip("How much you get when you kill this unit")]
     public int moneyWorth;
-    [Tooltip("")]
+    [Tooltip("How many points you get for killing this unit")]
     public int scoreWorth;
     [Tooltip("The amount of Health this unit has")]
     public float health = 10;

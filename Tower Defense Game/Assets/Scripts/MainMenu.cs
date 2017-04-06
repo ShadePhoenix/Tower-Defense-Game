@@ -7,48 +7,49 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
-    public Scene gameScene;
-
     string fileLocation;
     string fileName;
+    string filePath;
 
     // Use this for initialization
     void Start ()
     {
-        if (PlayerPrefs.GetInt("StartUp") != 1)
-        {
-            PlayerPrefs.SetInt("StartUp", 1);
-            IniHighScore();
-        }
+        //fileLocation = Application.dataPath + "/";
+        //fileName = "HighScores.txt";
+        //filePath = fileLocation + fileName;
+        //PlayerPrefs.SetString("FilePath", filePath);
+
+        //if (!File.Exists(filePath))
+        //{
+        //    IniHighScore();
+        //}
+        //print(filePath);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+
 	}
 
-    void IniHighScore()
+    //void IniHighScore()
+    //{
+    //    File.CreateText(filePath);
+    //    //FileInfo t = new FileInfo(fileLocation + "/" + fileName);
+    //    Debug.Log("File Created");
+    //}
+
+    //void GetHighScore()
+    //{
+        
+    //}
+
+    public void StartGame(string playScene)
     {
-        // Where we want to save and load to and from
-        fileLocation = Application.dataPath + "/";
-        fileName = "SaveData.xml";
-        CreateXML();
-    }
-    void CreateXML()
-    {
-        StreamWriter writer;
-        FileInfo t = new FileInfo(fileLocation + "/" + fileName);
-        writer = t.CreateText();
-        Debug.Log("File Created");
+        SceneManager.LoadScene(playScene);
     }
 
-    void StartGame()
-    {
-        SceneManager.LoadScene(gameScene.name);
-    }
-
-    void Exit()
+    public void Exit()
     {
         Application.Quit();
     }

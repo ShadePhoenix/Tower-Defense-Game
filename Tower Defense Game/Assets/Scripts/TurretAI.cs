@@ -104,7 +104,13 @@ public class TurretAI : MonoBehaviour
             {
                 hit.collider.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
             }
-            barrel.GetComponent<ParticleSystem>().Play();
+            if (barrel.GetComponent<ParticleSystem>() != null)
+                barrel.GetComponent<ParticleSystem>().Play();
+            else
+            {
+                barrel.GetComponentsInChildren<ParticleSystem>()[0].Play();
+                barrel.GetComponentsInChildren<ParticleSystem>()[1].Play();
+            }
             float waitTime = fireWait;
             StartCoroutine(FireWait(waitTime));
             fire = false;
@@ -119,7 +125,12 @@ public class TurretAI : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         if (waitTime == fireWait)
             fire = true;
-        else
+        else if (barrel.GetComponent<ParticleSystem>() != null)
             barrel.GetComponent<ParticleSystem>().Stop();
+        else
+        {
+            barrel.GetComponentsInChildren<ParticleSystem>()[0].Stop();
+            barrel.GetComponentsInChildren<ParticleSystem>()[1].Stop();
+        }
     }
 }
