@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Xml;
+using System.Linq;
 using System.Collections;
+using System.Xml.Serialization;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    List<HighScore> highScores;
+
     Camera m_Camera;
 
     public Text moneyText;
@@ -37,10 +42,14 @@ public class UIManager : MonoBehaviour
     static public bool isRemoving = false;
     static public bool uiMode = false;
 
+    string fileLocation;
+    string fileName;
+
 	// Use this for initialization
 	void Start ()
     {
         pauseMenu.SetActive(false);
+        GetHighScore();
         //gameOverMenu.SetActive(false);
         enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         enemySpawner.GetComponent<EnemySpawner>().enemyPrefab = enemyPrefabs;
@@ -48,7 +57,6 @@ public class UIManager : MonoBehaviour
         m_Camera = Camera.main;
         UpdateStats();
         ButtonIni();
-
     }
 
     //Spawns buttons in the menu for each prefab defined
@@ -184,6 +192,16 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
+    void GetHighScore()
+    {
+
+    }
+
+    void SaveHighScore()
+    {
+
+    }
+
     //This does something that helps, I swear
     IEnumerator WaitTimer()
     {
@@ -193,5 +211,18 @@ public class UIManager : MonoBehaviour
             isBuilding = !isBuilding;
         else if (isRemoving)
             isRemoving = !isRemoving;
+    }
+}
+
+public struct HighScore
+{
+    public int rank;
+    public string playerName;
+    public int playerScore;
+    public HighScore(int _rank, string _playerName, int _playerScore)
+    {
+        rank = _rank;
+        playerName = _playerName;
+        playerScore = _playerScore;
     }
 }
