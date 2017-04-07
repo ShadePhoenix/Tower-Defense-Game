@@ -22,7 +22,7 @@ public class BuildButton : MonoBehaviour {
         button = GetComponent<Button>();
         //turretIcon = turretScript.turretIcon;
         //button.image = turretIcon;
-        buttonText.text = turretScript.turretName;
+        buttonText.text = turretScript.turretName + "\n $" + turretScript.cost;
         button.onClick.AddListener(Build);
 	}
 	

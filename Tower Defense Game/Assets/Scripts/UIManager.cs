@@ -28,8 +28,10 @@ public class UIManager : MonoBehaviour
     public GameObject gameUI;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
+    public GameObject gameWonMenu;
 
     public bool gameOver = false;
+    public bool gameWon = false;
 
     GameObject enemySpawner;
 
@@ -49,11 +51,15 @@ public class UIManager : MonoBehaviour
     {
         enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         enemySpawner.GetComponent<EnemySpawner>().enemyPrefab = enemyPrefabs;
+
     }
 
     // Use this for initialization
     void Start ()
     {
+        score = 0;
+        scoreTB.text = score.ToString();
+        Time.timeScale = 1;
         //filePath = PlayerPrefs.GetString("FilePath");
         gameUI.SetActive(true);
         gameOverMenu.SetActive(false);
@@ -161,34 +167,35 @@ public class UIManager : MonoBehaviour
         moneyTB.text = "Money: $" + money;
     }
 
-    void AdminButton()
-    {
-
-    }
-
     //Handles the pause menus and pauses the game
     bool isPaused = false;
     public void MenuPR(bool pause = false)
     {
         //Pause
         isPaused = pause;
-        if (pause && !gameOver)
+        if (pause && !gameOver && !gameWon)
         {
             gameUI.SetActive(!pause);
             pauseMenu.SetActive(pause);
             Time.timeScale = 0;
         }
         //Unpause if Paused
-        else if (!pause && !gameOver)
+        else if (!pause && !gameOver && !gameWon)
         {
             gameUI.SetActive(!pause);
             pauseMenu.SetActive(pause);
             Time.timeScale = 1;
         }
-        else if (pause && gameOver)
+        else if (pause && gameOver && !gameWon)
         {
             gameOverMenu.SetActive(gameOver);
             gameUI.SetActive(!gameOver);
+            Time.timeScale = 0;
+        }
+        else if (pause && !gameOver && gameWon)
+        {
+            gameWonMenu.SetActive(gameWon);
+            gameUI.SetActive(!gameWon);
             Time.timeScale = 0;
         }
     }
@@ -204,6 +211,12 @@ public class UIManager : MonoBehaviour
         gameOver = true;
         MenuPR(gameOver);
         endScore.text = "You have been defeated! \n You were able to score: " + score + "\n Maybe next time you'll have better luck!";
+    }
+
+    public void GameWon()
+    {
+        gameWon = true;
+        MenuPR(gameWon);
     }
 
     //Takes you back to the main menu
