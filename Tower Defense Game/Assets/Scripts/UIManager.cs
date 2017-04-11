@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     static public int score;
 
     public Text endScore;
+    public Text winScore;
+
+    public GameObject cursorObject;
 
     public GameObject gameUI;
     public GameObject pauseMenu;
@@ -34,6 +37,8 @@ public class UIManager : MonoBehaviour
     public bool gameWon = false;
 
     GameObject enemySpawner;
+    public Sprite targetSprite;
+    public Sprite buildSprite;
 
     public GameObject[] turretPrefabs;
     public GameObject[] enemyPrefabs;
@@ -64,6 +69,7 @@ public class UIManager : MonoBehaviour
         gameUI.SetActive(true);
         gameOverMenu.SetActive(false);
         pauseMenu.SetActive(false);
+        gameWonMenu.SetActive(false);
         money = startingMoney;
         m_Camera = Camera.main;
         UpdateStats();
@@ -97,6 +103,19 @@ public class UIManager : MonoBehaviour
             uiMode = false;
         if (Input.GetKeyDown(KeyCode.Escape))
             MenuPR(!isPaused);
+        TargetCursor();
+    }
+
+    
+    void TargetCursor()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 950f;
+        cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
+        if (isBuilding || isRemoving)
+            cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = buildSprite;
+        else
+            cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
     }
 
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
@@ -186,13 +205,13 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(pause);
             Time.timeScale = 1;
         }
-        else if (pause && gameOver && !gameWon)
+        if (pause && gameOver && !gameWon)
         {
             gameOverMenu.SetActive(gameOver);
             gameUI.SetActive(!gameOver);
             Time.timeScale = 0;
         }
-        else if (pause && !gameOver && gameWon)
+        if (pause && !gameOver && gameWon)
         {
             gameWonMenu.SetActive(gameWon);
             gameUI.SetActive(!gameWon);
@@ -210,13 +229,14 @@ public class UIManager : MonoBehaviour
     {
         gameOver = true;
         MenuPR(gameOver);
-        endScore.text = "You have been defeated! \n You were able to score: " + score + "\n Maybe next time you'll have better luck!";
+        endScore.text = "You have been defeated! \n You were able to score: " + score + "\n Defeating " + EnemySpawner.defeatedEnemies + " out of " + EnemySpawner.spawnEnemies + "\n Maybe next time you'll have better luck!";
     }
 
     public void GameWon()
     {
         gameWon = true;
         MenuPR(gameWon);
+        winScore.text = "Congratulations! You've defeated all enemies. \n With a score of " + score;
     }
 
     //Takes you back to the main menu

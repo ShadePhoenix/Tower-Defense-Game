@@ -19,11 +19,13 @@ public class HighScore : MonoBehaviour {
     //    filePath = fileLocation + fileName;
     //    PlayerPrefs.SetString("FilePath", filePath);
 
+    //    highScore = new string[5];
+
     //    if (!File.Exists(filePath))
     //    {
     //        IniHighScore();
     //    }
-    //    print(filePath);
+    //    GetHighScore();
     //}
 
     //void IniHighScore()
@@ -32,17 +34,31 @@ public class HighScore : MonoBehaviour {
     //    Debug.Log("File Created");
     //}
 
+    //public string[] temp = new string[5];
+    //public string[] splitUp = new string[5];
     //void GetHighScore()
     //{
+    //    int tempNum = 0;
     //    StreamReader reader = new StreamReader(filePath);
-    //    highScore = reader.ReadToEnd().Split(',');
-    //    for (int i = 0; i < highScore.Length; i++)
+    //    foreach (string line in reader.ReadToEnd().Split('\n'))
     //    {
-    //        int rank = int.Parse(highScore[i]);
-    //        string playerName = highScore[i + 1];
-    //        int score = int.Parse(highScore[i + 2]);
-    //        highScoreTB.text += rank + playerName + score + "\n";
-    //        i = i + 3;
+    //        if (tempNum != 6)
+    //        {
+    //            temp[tempNum] = line;
+    //            tempNum++;
+    //        }            
+    //    }
+    //    for (int i = 0; i < temp.Length; i++)
+    //    {
+    //        splitUp = temp[i].Split(',');
+    //        int rank = int.Parse(splitUp[0]);
+    //        string playerName = splitUp[1];
+    //        int score = int.Parse(splitUp[2]);
+    //        highScore[rank] = rank + " : " + playerName + " : " + score;
+    //    }
+    //    foreach (string HS in highScore)
+    //    {
+    //        highScoreTB.text += HS + "\n";
     //    }
     //}
 
