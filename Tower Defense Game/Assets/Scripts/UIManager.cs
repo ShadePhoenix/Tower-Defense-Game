@@ -62,6 +62,9 @@ public class UIManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        isBuilding = false;
+        isRemoving = false;
+        uiMode = false;
         score = 0;
         scoreTB.text = score.ToString();
         Time.timeScale = 1;

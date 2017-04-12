@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        spawn = true;
         spawnEnemies = enemiesToSpawn;
         StartCoroutine(EndlessSpawing());
 	}
@@ -24,11 +25,11 @@ public class EnemySpawner : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (spawnedNum >= enemiesToSpawn)
+        if (spawnedNum >= spawnEnemies)
         {
             spawn = false;
         }
-        if(defeatedEnemies >= enemiesToSpawn)
+        if(defeatedEnemies >= spawnEnemies)
         {
             GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameWon();
             spawnedNum = 0;
@@ -46,11 +47,13 @@ public class EnemySpawner : MonoBehaviour {
                 Instantiate(enemyPrefab[Random.Range(0, enemyPrefab.Length)], transform.position, Quaternion.Euler(Vector3.zero));
                 spawnedNum++;
             }
-            else
+            else if (enemyPrefab.Length == 1)
             {
                 Instantiate(enemyPrefab[0], transform.position, Quaternion.Euler(Vector3.zero));
                 spawnedNum++;
             }
+            else
+                spawn = false;
         }
     }
 }

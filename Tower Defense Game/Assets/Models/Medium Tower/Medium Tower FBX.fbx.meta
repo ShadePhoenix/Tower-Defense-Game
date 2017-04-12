@@ -1,51 +1,27 @@
 fileFormatVersion: 2
-guid: 0c41a676de4f8af4a928d0603b149733
-timeCreated: 1491480876
-licenseType: Free
+guid: 4f4544fbc02c4234e96aafb0ba36db77
+timeCreated: 1491954904
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: polySurface1
-    100004: polySurface2
-    100006: polySurface3
-    100008: polySurface4
-    100010: polySurface4 1
-    100012: transform1
-    100014: transform2
-    100016: transform3
-    100018: transform4
-    100020: TurretBase
-    100022: Barrel
-    100024: TurretHead
-    400000: //RootNode
-    400002: polySurface1
-    400004: polySurface2
-    400006: polySurface3
-    400008: polySurface4
-    400010: polySurface4 1
-    400012: transform1
-    400014: transform2
-    400016: transform3
-    400018: transform4
-    400020: TurretBase
-    400022: Barrel
-    400024: TurretHead
-    2300000: polySurface1
-    2300002: polySurface4
-    2300004: Barrel
-    2300006: TurretBase
-    2300008: TurretHead
-    3300000: polySurface1
-    3300002: polySurface4
-    3300004: Barrel
-    3300006: TurretBase
-    3300008: TurretHead
-    4300000: polySurface1
-    4300002: polySurface4
-    4300004: TurretBase
-    4300006: TurretHead
-    4300008: Barrel
+    100000: Barrel
+    100002: //RootNode
+    100004: TurretBase
+    100006: TurretHead
+    400000: Barrel
+    400002: //RootNode
+    400004: TurretBase
+    400006: TurretHead
+    2300000: Barrel
+    2300002: TurretBase
+    2300004: TurretHead
+    3300000: Barrel
+    3300002: TurretBase
+    3300004: TurretHead
+    4300000: TurretBase
+    4300002: TurretHead
+    4300004: Barrel
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -71,7 +47,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

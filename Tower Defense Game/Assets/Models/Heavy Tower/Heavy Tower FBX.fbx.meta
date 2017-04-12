@@ -1,32 +1,27 @@
 fileFormatVersion: 2
-guid: 9924b74dcff9c82489b3b2fa5196bac7
-timeCreated: 1489888330
-licenseType: Free
+guid: dbf2f6e5748fc8245807e55c5575b5b4
+timeCreated: 1491955625
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: BasicTurret
+    100000: Barrel
+    100002: //RootNode
     100004: TurretBase
-    100006: Barrel
-    100008: TurretHead
-    400000: //RootNode
-    400002: BasicTurret
+    100006: TurretHead
+    400000: Barrel
+    400002: //RootNode
     400004: TurretBase
-    400006: Barrel
-    400008: TurretHead
-    2300000: BasicTurret
+    400006: TurretHead
+    2300000: Barrel
     2300002: TurretBase
-    2300004: Barrel
-    2300006: TurretHead
-    3300000: BasicTurret
+    2300004: TurretHead
+    3300000: Barrel
     3300002: TurretBase
-    3300004: Barrel
-    3300006: TurretHead
-    4300000: BasicTurret
-    4300002: TurretBase
+    3300004: TurretHead
+    4300000: TurretBase
+    4300002: TurretHead
     4300004: Barrel
-    4300006: TurretHead
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -52,7 +47,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
